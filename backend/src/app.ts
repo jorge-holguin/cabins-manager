@@ -29,15 +29,14 @@ app.use('/api/expenses', expenseRoutes);
 app.use('/api/partners', partnerRoutes);
 app.use('/api/reports', reportRoutes);
 
-// Servir archivos estáticos desde el frontend
-app.use(express.static(path.join(__dirname, '..', 'public')));
-
 // Middleware de manejo de errores
 import { errorHandler } from './middlewares/errorHandler';
 app.use(errorHandler);
 
+app.use(express.static(path.join(process.cwd(), 'public')));
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-  });
+  res.sendFile(path.join(process.cwd(), 'public', 'index.html'));
+});
+
 
 export default app;
