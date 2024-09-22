@@ -1,29 +1,26 @@
 # Etapa 1: Construcción del frontend
-FROM node:18-alpine AS build-frontend
+FROM node:18-alpine as build-frontend
 WORKDIR /app/frontend
 COPY ./frontend/package*.json ./
 RUN npm install
 COPY ./frontend ./
 RUN npm run build
 
-# Etapa 2: Construcción del backend
-FROM node:18-alpine AS build-backend
+# Etapa 2: Configuración del backend
+FROM node:18-alpine
 WORKDIR /app
 COPY ./backend/package*.json ./
 RUN npm install
 COPY ./backend ./
 
-# Copiar los archivos del frontend a la carpeta pública del backend
+# Transpilar los archivos TypeScript del backend
+RUN npm run build  # Asegúrate de que este comando esté configurado para transpilar el TypeScript
+
+# Copiar los archivos del frontend transpilados
 COPY --from=build-frontend /app/frontend/dist ./public
 
-# Transpilar el backend de TypeScript a JavaScript
-RUN npm run build
-
-# Exponer el puerto donde correrá la aplicación
+# Exponer el puerto
 EXPOSE 3000
 
-# Definir la variable de entorno para producción
-ENV NODE_ENV production
-
 # Iniciar la aplicación
-CMD ["npm", "start"]
+CMD ["npm", "run", "start"]
