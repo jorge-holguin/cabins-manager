@@ -1,6 +1,7 @@
 // src/app.ts
 
 import express from 'express';
+import path from 'path';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
@@ -28,8 +29,15 @@ app.use('/api/expenses', expenseRoutes);
 app.use('/api/partners', partnerRoutes);
 app.use('/api/reports', reportRoutes);
 
+// Servir archivos estáticos desde el frontend
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Middleware de manejo de errores
 import { errorHandler } from './middlewares/errorHandler';
 app.use(errorHandler);
 
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  });
+  
 export default app;
