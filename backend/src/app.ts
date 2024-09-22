@@ -30,7 +30,7 @@ app.use('/api/partners', partnerRoutes);
 app.use('/api/reports', reportRoutes);
 
 // Servir archivos estáticos desde el frontend
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // Middleware de manejo de errores
 import { errorHandler } from './middlewares/errorHandler';
@@ -39,5 +39,5 @@ app.use(errorHandler);
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
   });
-  
+
 export default app;

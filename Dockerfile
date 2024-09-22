@@ -14,7 +14,7 @@ RUN npm install
 COPY ./backend ./
 
 # Transpilar los archivos TypeScript del backend
-RUN npm run build  # Asegúrate de que este comando esté configurado para transpilar el TypeScript
+RUN npm run build 
 
 # Copiar los archivos del frontend transpilados
 COPY --from=build-frontend /app/frontend/dist ./public
